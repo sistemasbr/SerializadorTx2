@@ -17,8 +17,8 @@ namespace SistemasBR.SerializadorTx2.Atributos
             Obrigatorio = obrigatorio;
         }
 
-        private string NomeCorrespondente { get; }
-        private bool Obrigatorio { get; }
-        private int TamanhoMaximo { get; }
+        internal string NomeCorrespondente { get; }
+        internal bool Obrigatorio { get; }
+        internal int TamanhoMaximo { get; }
     }
 }
