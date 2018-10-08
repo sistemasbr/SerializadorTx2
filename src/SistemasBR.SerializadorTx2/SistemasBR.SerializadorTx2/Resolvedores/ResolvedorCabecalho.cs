@@ -21,7 +21,10 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
                         $"A classe deve conter o atributo \"{nameof(Tx2CabecalhoAttribute)}\" (Type: {typeof(Tx2CabecalhoAttribute)})");
 
                 var atributoTx2CabecalhoClasse =
-                    atributosClasse.First(a => a.AttributeType == typeof(Tx2CabecalhoAttribute));
+                    atributosClasse.FirstOrDefault(a => a.AttributeType == typeof(Tx2CabecalhoAttribute));
+
+                if (atributoTx2CabecalhoClasse == null)
+                    return tipo.Name;
 
                 var argumentosConstrutorCabecalho = atributoTx2CabecalhoClasse.ConstructorArguments;
 

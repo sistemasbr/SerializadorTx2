@@ -27,7 +27,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
                         continue;
 
                     var atributoTx2Propriedade = atributosProriedade
-                        .First(a => a.AttributeType == typeof(Tx2CampoAttribute));
+                        .FirstOrDefault(a => a.AttributeType == typeof(Tx2CampoAttribute));
 
                     corpoTx2 += CriaLinhaTx2(atributoTx2Propriedade,
                         new ResolvedorPropriedadesParametros(objeto, propriedade));
@@ -39,7 +39,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
                 CustomAttributeData atributoTx2Propriedade,
                 ResolvedorPropriedadesParametros parametrosResolvedorPropriedades)
             {
-                var argumentosConstrutorPropriedade = atributoTx2Propriedade.ConstructorArguments;
+                var argumentosConstrutorPropriedade = atributoTx2Propriedade?.ConstructorArguments;
 
                 var nomeTx2 = CapturaNomeTx2(
                     new ResolvedorPropriedadesParametros(argumentosConstrutorPropriedade,
@@ -61,6 +61,9 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
             private static string CapturaNomeTx2(
                 ResolvedorPropriedadesParametros parametrosResolvedorPropriedades)
             {
+                if (parametrosResolvedorPropriedades.ArgumentosConstrutorPropriedade.Count == 0)
+                    return parametrosResolvedorPropriedades.Propriedade.Name;
+
                 var nomeTx2 = parametrosResolvedorPropriedades.ArgumentosConstrutorPropriedade[0].Value.ToString();
 
                 if (!string.IsNullOrWhiteSpace(nomeTx2)) return nomeTx2;
@@ -79,8 +82,9 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
                     .Propriedade
                     .GetValue(parametrosResolvedorPropriedades.Objeto).ToString();
 
-                var preenchimentoObrigatorio =
-                    Convert
+                var preenchimentoObrigatorio = false;
+                if (parametrosResolvedorPropriedades.ArgumentosConstrutorPropriedade.Count > 0)
+                    preenchimentoObrigatorio = Convert
                         .ToBoolean(parametrosResolvedorPropriedades
                             .ArgumentosConstrutorPropriedade[1]
                             .Value

@@ -23,7 +23,8 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
             IList<CustomAttributeTypedArgument> argumentosConstrutorPropriedade,
             PropertyInfo propriedade)
         {
-            ArgumentosConstrutorPropriedade = argumentosConstrutorPropriedade;
+            ArgumentosConstrutorPropriedade =
+                argumentosConstrutorPropriedade ?? new List<CustomAttributeTypedArgument>(0);
             Propriedade = propriedade;
         }
 
@@ -33,7 +34,8 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
             PropertyInfo propriedade)
         {
             Objeto = objeto;
-            ArgumentosConstrutorPropriedade = argumentosConstrutorPropriedade;
+            ArgumentosConstrutorPropriedade =
+                argumentosConstrutorPropriedade ?? new List<CustomAttributeTypedArgument>(0);
             Propriedade = propriedade;
         }
     }

@@ -2,10 +2,9 @@
 
 namespace ConsumidorSerializador
 {
-    [Tx2Cabecalho("Teste")]
     public class Mock
     {
-        [Tx2Campo("AMD_11", true)]
+        [Tx2Campo("", true)]
         public string Teste { get; set; }
 
         [Tx2Campo("nome", false, 5)]

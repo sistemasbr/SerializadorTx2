@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime;
 using SistemasBR.SerializadorTx2;
+using SistemasBR.SerializadorTx2.Configuracao;
 
 namespace ConsumidorSerializador
 {
@@ -10,11 +11,18 @@ namespace ConsumidorSerializador
         {
             var obj = new Mock
             {
-                Teste = "aaa",
+                Teste = "",
                 Teste2 = 2,
                 Nao = "Não é pra ir",
-                Essevai = "12"
+                Essevai = "123"
             };
+
+            SerializadorTx2Configuracao.ConfigurarComportamento(
+                ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido |
+                ComportamentoFlags.NaoDispararExceptionPropriedadesObrigatoriasVazias |
+                ComportamentoFlags.NomeDaClasseNoCabecalhoNaoInformadoOuVazio |
+                ComportamentoFlags.NomeDaPropriedadeQuandoNomeCampoVazio |
+                ComportamentoFlags.SerializarPropriedadesSemAtributo);
 
             Console.WriteLine(SerializadorTx2.Serializar(obj));
             Console.ReadLine();
