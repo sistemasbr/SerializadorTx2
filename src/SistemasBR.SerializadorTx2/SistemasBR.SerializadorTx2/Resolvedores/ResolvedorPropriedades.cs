@@ -48,7 +48,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
                 var valorPropriedade = PreencheValorPropriedade(
                     new ResolvedorPropriedadesParametros(
                         parametrosResolvedorPropriedades.Objeto,
-                        parametrosResolvedorPropriedades.ArgumentosConstrutorPropriedade,
+                        argumentosConstrutorPropriedade,
                         parametrosResolvedorPropriedades.Propriedade));
 
                 VerificaQuantidadeLimite(valorPropriedade,
