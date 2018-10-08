@@ -16,7 +16,7 @@ namespace ConsumidorSerializador
             };
 
             Console.WriteLine(SerializadorTx2.Serializar(obj));
-            Console.ReadKey();
+            Console.ReadLine();
         }
     }
 }

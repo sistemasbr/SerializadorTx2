@@ -1,6 +1,8 @@
 ﻿using SistemasBR.SerializadorTx2.Atributos;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace SistemasBR.SerializadorTx2
 {
@@ -12,22 +14,25 @@ namespace SistemasBR.SerializadorTx2
 
             var tipo = objeto.GetType();
 
-            var propriedades = tipo.GetProperties();
-
             var resposta = "";
 
-            var cabecaclho = "";
+            var cabecalho = "";
 
-            foreach (var atributoClasse in tipo
-                .CustomAttributes
-                .Where(a => a.AttributeType == typeof(Tx2CabecalhoAttribute)))
-            {
-                foreach (var argumentosConstrutor in atributoClasse.ConstructorArguments)
-                {
-                    cabecaclho = argumentosConstrutor.Value.ToString();
-                    break;
-                }
-            }
+            var atributosClasse = tipo.CustomAttributes as IList<CustomAttributeData> ?? tipo.CustomAttributes.ToList();
+
+            if (atributosClasse.All(a => a.AttributeType != typeof(Tx2CabecalhoAttribute)))
+                throw new CustomAttributeFormatException(
+                    $"A classe deve conter o atributo \"{nameof(Tx2CabecalhoAttribute)}\" (Type: {typeof(Tx2CabecalhoAttribute)})");
+
+            var atributoCabecalhoClasse = atributosClasse.First();
+
+            foreach (var argumentosConstrutor in atributoCabecalhoClasse.ConstructorArguments)
+                cabecalho = argumentosConstrutor.Value.ToString();
+
+
+
+
+            var propriedades = tipo.GetProperties();
 
             foreach (var propriedade in propriedades)
             {
@@ -46,7 +51,7 @@ namespace SistemasBR.SerializadorTx2
                 }
             }
 
-            return $"INCLUIR{cabecaclho}\n{resposta}SALVAR{cabecaclho}";
+            return $"INCLUIR{cabecalho}\n{resposta}SALVAR{cabecalho}";
         }
     }
 }

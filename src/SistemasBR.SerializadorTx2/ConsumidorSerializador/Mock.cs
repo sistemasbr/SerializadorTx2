@@ -8,7 +8,7 @@ namespace ConsumidorSerializador
         [Tx2Campo("AMD_11", false)]
         public string Teste { get; set; }
 
-        [Tx2Campo("CONS_111", false)]
+        [Tx2Campo("CONS_111", false, 5)]
         public int Teste2 { get; set; }
 
         public string Nao { get; set; }
