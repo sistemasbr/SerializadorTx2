@@ -2,7 +2,7 @@
 {
     internal static class ConfiguracoesAtuais
     {
-        internal static bool NomeDaClasseNoCabecalhoNaoInformadoOuVazio { get; private set; }
+        internal static bool NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio { get; private set; }
         internal static bool SerializarPropriedadesSemAtributo { get; private set; }
         internal static bool NomeDaPropriedadeQuandoNomeCampoVazio { get; private set; }
         internal static bool NaoDispararExceptionPropriedadesObrigatoriasVazias { get; private set; }
@@ -10,7 +10,7 @@
 
         internal static void AtualizarConfiguracoesGerais(ComportamentoFlags configuracoes)
         {
-            NomeDaClasseNoCabecalhoNaoInformadoOuVazio =
+            NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio =
                 configuracoes.HasFlag(ComportamentoFlags.NomeDaClasseNoCabecalhoNaoInformadoOuVazio);
 
             SerializarPropriedadesSemAtributo =
@@ -30,7 +30,7 @@
         {
             ComportamentoFlags comportamentoAtual = 0;
 
-            if (NomeDaClasseNoCabecalhoNaoInformadoOuVazio)
+            if (NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio)
                 comportamentoAtual = ComportamentoFlags.NomeDaClasseNoCabecalhoNaoInformadoOuVazio;
 
             if (SerializarPropriedadesSemAtributo)

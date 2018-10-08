@@ -2,7 +2,7 @@
 
 namespace ConsumidorSerializador
 {
-    [Tx2Cabecalho("aaa")]
+    [Tx2Cabecalho("")]
     public class Mock
     {
         [Tx2Campo("AMD_11", true)]
