@@ -10,9 +10,10 @@ namespace ConsumidorSerializador
         {
             var obj = new Mock
             {
-                Teste = "Campo1111",
+                Teste = "aaa",
                 Teste2 = 2,
-                Nao = "Não é pra ir"
+                Nao = "Não é pra ir",
+                Essevai = "12"
             };
 
             Console.WriteLine(SerializadorTx2.Serializar(obj));

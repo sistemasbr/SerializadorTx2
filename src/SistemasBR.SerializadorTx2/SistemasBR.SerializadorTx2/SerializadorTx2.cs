@@ -26,8 +26,12 @@ namespace SistemasBR.SerializadorTx2
 
             var atributoTx2CabecalhoClasse = atributosClasse.First(a => a.AttributeType == typeof(Tx2CabecalhoAttribute));
 
-            foreach (var argumentosConstrutor in atributoTx2CabecalhoClasse.ConstructorArguments)
-                cabecalho = argumentosConstrutor.Value.ToString();
+            var argumentosConstrutorCabecalho = atributoTx2CabecalhoClasse.ConstructorArguments;
+
+            cabecalho = argumentosConstrutorCabecalho[0].Value.ToString();
+
+            if (string.IsNullOrWhiteSpace(cabecalho))
+                throw new ArgumentNullException(nameof(cabecalho), "O valor do cebeçalho não pode ser vazio.");
 
             var propriedades = tipo.GetProperties();
 
@@ -47,14 +51,16 @@ namespace SistemasBR.SerializadorTx2
                 var nomeTx2 = argumentosConstrutorPropriedade[0].Value.ToString();
 
                 if (string.IsNullOrWhiteSpace(nomeTx2))
-                    throw new ArgumentNullException(nameof(nomeTx2));
+                    throw new ArgumentNullException(nameof(nomeTx2),
+                        $"O nome correspondente da propriedade \"{propriedade.Name}\" não foi preenchido.");
 
                 var valorProriedade = propriedade.GetValue(objeto).ToString();
 
                 var preenchimentoObrigatorio = Convert.ToBoolean(argumentosConstrutorPropriedade[1].Value.ToString());
 
-                if (preenchimentoObrigatorio && string.IsNullOrWhiteSpace(valorProriedade.ToString()))
-                    throw new ArgumentNullException(nameof(propriedade));
+                if (preenchimentoObrigatorio && string.IsNullOrWhiteSpace(valorProriedade))
+                    throw new ArgumentNullException(nameof(propriedade),
+                        $"A propriedade \"{propriedade.Name}\" tem preenchimento obrigatório.");
 
                 if (argumentosConstrutorPropriedade.Count >= 3)
                 {
@@ -62,7 +68,7 @@ namespace SistemasBR.SerializadorTx2
 
                     if (valorProriedade.Length > quantidadeLimite)
                         throw new ArgumentOutOfRangeException(nameof(propriedade), valorProriedade,
-                            "Valor maior do que o permitido");
+                            $"Quantidade de caracteres da propriedade \"{propriedade.Name}\" maior do que o permitido que é {quantidadeLimite}.");
                 }
 
                 resposta += $"{nomeTx2}={valorProriedade}\n";
