@@ -6,7 +6,7 @@ InicioComando
 Campo=Valor  
 FimComando  
   
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2da97c52c55e4507acd2f274b979c8ce)](https://www.codacy.com/app/sistemasbr/SerializadorTx2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sistemasbr/SerializadorTx2&amp;utm_campaign=Badge_Grade)  
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d2c6c1e662fb4a1fab93d73ff8e6c743)](https://www.codacy.com/app/sistemasbr/SerializadorTx2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sistemasbr/SerializadorTx2&amp;utm_campaign=Badge_Grade)
   
 [SistemasBR](http://www.sistemasbr.net)  
   
