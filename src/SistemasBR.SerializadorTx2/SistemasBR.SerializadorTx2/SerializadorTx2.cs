@@ -16,8 +16,6 @@ namespace SistemasBR.SerializadorTx2
 
             var resposta = "";
 
-            var cabecalho = "";
-
             var atributosClasse = tipo.CustomAttributes as IList<CustomAttributeData> ?? tipo.CustomAttributes.ToList();
 
             if (atributosClasse.All(a => a.AttributeType != typeof(Tx2CabecalhoAttribute)))
@@ -28,7 +26,7 @@ namespace SistemasBR.SerializadorTx2
 
             var argumentosConstrutorCabecalho = atributoTx2CabecalhoClasse.ConstructorArguments;
 
-            cabecalho = argumentosConstrutorCabecalho[0].Value.ToString();
+            var cabecalho = argumentosConstrutorCabecalho[0].Value.ToString();
 
             if (string.IsNullOrWhiteSpace(cabecalho))
                 throw new ArgumentNullException(nameof(cabecalho), "O valor do cebeçalho não pode ser vazio.");
