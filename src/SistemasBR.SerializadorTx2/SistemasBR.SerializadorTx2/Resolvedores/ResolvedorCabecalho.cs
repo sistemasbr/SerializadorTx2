@@ -7,34 +7,40 @@ using SistemasBR.SerializadorTx2.Configuracao;
 
 namespace SistemasBR.SerializadorTx2.Resolvedores
 {
-    internal class ResolvedorCabecalho
+    internal partial class Resolvedor
     {
-        internal static string PegarValorCabecalho(MemberInfo tipo)
+        internal class Cabecalho
         {
-            var atributosClasse = tipo.CustomAttributes as IList<CustomAttributeData> ?? tipo.CustomAttributes.ToList();
+            internal static string PegarValorCabecalho(MemberInfo tipo)
+            {
+                var atributosClasse = tipo.CustomAttributes as IList<CustomAttributeData> ??
+                                      tipo.CustomAttributes.ToList();
 
-            if (DeveDispararExceptionPorNaoConterAtributo(atributosClasse))
-                throw new CustomAttributeFormatException(
-                    $"A classe deve conter o atributo \"{nameof(Tx2CabecalhoAttribute)}\" (Type: {typeof(Tx2CabecalhoAttribute)})");
+                if (DeveDispararExceptionPorNaoConterAtributo(atributosClasse))
+                    throw new CustomAttributeFormatException(
+                        $"A classe deve conter o atributo \"{nameof(Tx2CabecalhoAttribute)}\" (Type: {typeof(Tx2CabecalhoAttribute)})");
 
-            var atributoTx2CabecalhoClasse = atributosClasse.First(a => a.AttributeType == typeof(Tx2CabecalhoAttribute));
+                var atributoTx2CabecalhoClasse =
+                    atributosClasse.First(a => a.AttributeType == typeof(Tx2CabecalhoAttribute));
 
-            var argumentosConstrutorCabecalho = atributoTx2CabecalhoClasse.ConstructorArguments;
+                var argumentosConstrutorCabecalho = atributoTx2CabecalhoClasse.ConstructorArguments;
 
-            var cabecalho = argumentosConstrutorCabecalho[0].Value.ToString();
+                var cabecalho = argumentosConstrutorCabecalho[0].Value.ToString();
 
-            if (!string.IsNullOrWhiteSpace(cabecalho)) return cabecalho;
+                if (!string.IsNullOrWhiteSpace(cabecalho)) return cabecalho;
 
-            if (!ConfiguracoesAtuais.NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio)
-                throw new ArgumentNullException(nameof(cabecalho), "O valor do cebeçalho não pode ser vazio.");
+                if (!ConfiguracoesAtuais.NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio)
+                    throw new ArgumentNullException(nameof(cabecalho), "O valor do cebeçalho não pode ser vazio.");
 
-            cabecalho = tipo.Name;
+                cabecalho = tipo.Name;
 
-            return cabecalho;
+                return cabecalho;
+            }
+
+            private static bool DeveDispararExceptionPorNaoConterAtributo(
+                IEnumerable<CustomAttributeData> atributosClasse) =>
+                !ConfiguracoesAtuais.NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio
+                && atributosClasse.All(a => a.AttributeType != typeof(Tx2CabecalhoAttribute));
         }
-
-        private static bool DeveDispararExceptionPorNaoConterAtributo(IEnumerable<CustomAttributeData> atributosClasse) =>
-            !ConfiguracoesAtuais.NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio
-            && atributosClasse.All(a => a.AttributeType != typeof(Tx2CabecalhoAttribute));
     }
 }
