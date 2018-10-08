@@ -21,9 +21,9 @@ namespace SistemasBR.SerializadorTx2
 
                 var tipo = objeto.GetType();
 
-                var cabecalhoTx2 = Resolvedor.Cabecalho.PegarValorCabecalho(tipo);
+                var cabecalhoTx2 = Resolvedor.Cabecalho.RetornaValorCabecalho(tipo);
 
-                var corpoTx2 = Resolvedor.Propriedades.RetornaPropriedades(objeto, tipo);
+                var corpoTx2 = Resolvedor.Propriedades.RetornaValorPropriedades(objeto, tipo);
 
                 return $"INCLUIR{cabecalhoTx2}\n{corpoTx2}SALVAR{cabecalhoTx2}";
             }

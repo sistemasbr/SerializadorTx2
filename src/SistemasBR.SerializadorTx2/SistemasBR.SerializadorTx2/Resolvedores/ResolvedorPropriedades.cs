@@ -11,7 +11,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
     {
         internal class Propriedades
         {
-            internal static string RetornaPropriedades(object objeto, Type tipo)
+            internal static string RetornaValorPropriedades(object objeto, Type tipo)
             {
                 var corpoTx2 = "";
                 var propriedades = tipo.GetProperties();
@@ -29,73 +29,85 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
                     var atributoTx2Propriedade = atributosProriedade
                         .First(a => a.AttributeType == typeof(Tx2CampoAttribute));
 
-                    corpoTx2 += CriaLinhaTx2(objeto, atributoTx2Propriedade, propriedade);
+                    corpoTx2 += CriaLinhaTx2(atributoTx2Propriedade,
+                        new ResolvedorPropriedadesParametros(objeto, propriedade));
                 }
                 return corpoTx2;
             }
 
             private static string CriaLinhaTx2(
-                object objeto,
                 CustomAttributeData atributoTx2Propriedade,
-                PropertyInfo propriedade)
+                ResolvedorPropriedadesParametros parametrosResolvedorPropriedades)
             {
                 var argumentosConstrutorPropriedade = atributoTx2Propriedade.ConstructorArguments;
 
-                var nomeTx2 = CapturaNomeTx2(argumentosConstrutorPropriedade, propriedade);
+                var nomeTx2 = CapturaNomeTx2(
+                    new ResolvedorPropriedadesParametros(argumentosConstrutorPropriedade,
+                        parametrosResolvedorPropriedades.Propriedade));
 
-                var valorPropriedade = PreencheValorPropriedade(objeto, propriedade, argumentosConstrutorPropriedade);
+                var valorPropriedade = PreencheValorPropriedade(
+                    new ResolvedorPropriedadesParametros(
+                        parametrosResolvedorPropriedades.Objeto,
+                        parametrosResolvedorPropriedades.ArgumentosConstrutorPropriedade,
+                        parametrosResolvedorPropriedades.Propriedade));
 
-                VerificaQuantidadeLimite(argumentosConstrutorPropriedade, valorPropriedade, propriedade);
+                VerificaQuantidadeLimite(valorPropriedade,
+                    new ResolvedorPropriedadesParametros(argumentosConstrutorPropriedade,
+                        parametrosResolvedorPropriedades.Propriedade));
 
                 return $"{nomeTx2}={valorPropriedade}\n";
             }
 
             private static string CapturaNomeTx2(
-                IList<CustomAttributeTypedArgument> argumentosConstrutorPropriedade,
-                MemberInfo propriedade)
+                ResolvedorPropriedadesParametros parametrosResolvedorPropriedades)
             {
-                var nomeTx2 = argumentosConstrutorPropriedade[0].Value.ToString();
+                var nomeTx2 = parametrosResolvedorPropriedades.ArgumentosConstrutorPropriedade[0].Value.ToString();
 
                 if (!string.IsNullOrWhiteSpace(nomeTx2)) return nomeTx2;
 
                 if (!ConfiguracoesAtuais.NomeDaPropriedadeQuandoNomeCampoVazio)
                     throw new ArgumentNullException(nameof(nomeTx2),
-                        $"O nome correspondente da propriedade \"{propriedade.Name}\" não foi preenchido.");
+                        $"O nome correspondente da propriedade \"{parametrosResolvedorPropriedades.Propriedade.Name}\" não foi preenchido.");
 
-                return propriedade.Name;
+                return parametrosResolvedorPropriedades.Propriedade.Name;
             }
 
             private static string PreencheValorPropriedade(
-                object objeto,
-                PropertyInfo propriedade,
-                IList<CustomAttributeTypedArgument> argumentosConstrutorPropriedade)
+                ResolvedorPropriedadesParametros parametrosResolvedorPropriedades)
             {
-                var valorPropriedade = propriedade.GetValue(objeto).ToString();
+                var valorPropriedade = parametrosResolvedorPropriedades
+                    .Propriedade
+                    .GetValue(parametrosResolvedorPropriedades.Objeto).ToString();
 
                 var preenchimentoObrigatorio =
-                    Convert.ToBoolean(argumentosConstrutorPropriedade[1].Value.ToString());
+                    Convert
+                        .ToBoolean(parametrosResolvedorPropriedades
+                            .ArgumentosConstrutorPropriedade[1]
+                            .Value
+                            .ToString());
 
                 if (!preenchimentoObrigatorio || !string.IsNullOrWhiteSpace(valorPropriedade)) return valorPropriedade;
 
                 if (!ConfiguracoesAtuais.NaoDispararExceptionPropriedadesObrigatoriasVazias)
-                    throw new ArgumentNullException(nameof(propriedade),
-                        $"A propriedade \"{propriedade.Name}\" tem preenchimento obrigatório.");
+                    throw new ArgumentNullException(nameof(parametrosResolvedorPropriedades.Propriedade),
+                        $"A propriedade \"{parametrosResolvedorPropriedades.Propriedade.Name}\" tem preenchimento obrigatório.");
 
                 return "";
             }
 
             private static void VerificaQuantidadeLimite(
-                IList<CustomAttributeTypedArgument> argumentosConstrutorPropriedade,
                 string valorPropriedade,
-                PropertyInfo propriedade)
+                ResolvedorPropriedadesParametros parametrosResolvedorPropriedades)
             {
-                if (argumentosConstrutorPropriedade.Count < 3) return;
+                if (parametrosResolvedorPropriedades.ArgumentosConstrutorPropriedade.Count < 3) return;
 
-                var quantidadeLimite = Convert.ToInt32(argumentosConstrutorPropriedade[2].Value.ToString());
+                var quantidadeLimite = Convert.ToInt32(
+                    parametrosResolvedorPropriedades.ArgumentosConstrutorPropriedade[2].Value.ToString());
 
                 if (ExceptionLimiteExcedido(valorPropriedade, quantidadeLimite))
-                    throw new ArgumentOutOfRangeException(nameof(propriedade), valorPropriedade,
-                        $"Quantidade de caracteres da propriedade \"{propriedade.Name}\" maior do que o permitido que é {quantidadeLimite}.");
+                    throw new ArgumentOutOfRangeException(nameof(parametrosResolvedorPropriedades.Propriedade),
+                        valorPropriedade,
+                        $"Quantidade de caracteres da propriedade \"{parametrosResolvedorPropriedades.Propriedade.Name}\" maior do que o permitido que é {quantidadeLimite}.");
             }
 
             private static bool ExceptionLimiteExcedido(string valorPropriedade, int quantidadeLimite) =>

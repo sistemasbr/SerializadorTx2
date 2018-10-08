@@ -11,7 +11,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
     {
         internal class Cabecalho
         {
-            internal static string PegarValorCabecalho(MemberInfo tipo)
+            internal static string RetornaValorCabecalho(MemberInfo tipo)
             {
                 var atributosClasse = tipo.CustomAttributes as IList<CustomAttributeData> ??
                                       tipo.CustomAttributes.ToList();
