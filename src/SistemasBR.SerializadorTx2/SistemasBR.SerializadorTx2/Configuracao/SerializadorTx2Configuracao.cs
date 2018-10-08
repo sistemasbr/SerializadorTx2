@@ -2,9 +2,7 @@
 {
     public class SerializadorTx2Configuracao
     {
-        public static void ConfigurarComportamento(ComportamentoFlags comportamentos)
-        {
-
-        }
+        public static void ConfigurarComportamento(ComportamentoFlags comportamentos) =>
+            ConfiguracoesAtuais.AtualizarConfiguracoesGerais(comportamentos);
     }
 }

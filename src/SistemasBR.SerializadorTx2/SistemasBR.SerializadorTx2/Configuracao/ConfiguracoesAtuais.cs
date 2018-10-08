@@ -25,5 +25,35 @@
             NaoDispararExceptionPropriedadesMaioresPermitido =
                 configuracoes.HasFlag(ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido);
         }
+
+        internal static ComportamentoFlags DevolverConfiguracoesAtuais()
+        {
+            ComportamentoFlags comportamentoAtual = 0;
+
+            if (NomeDaClasseNoCabecalhoNaoInformadoOuVazio)
+                comportamentoAtual = ComportamentoFlags.NomeDaClasseNoCabecalhoNaoInformadoOuVazio;
+
+            if (SerializarPropriedadesSemAtributo)
+                comportamentoAtual = comportamentoAtual == 0
+                    ? ComportamentoFlags.SerializarPropriedadesSemAtributo
+                    : comportamentoAtual | ComportamentoFlags.SerializarPropriedadesSemAtributo;
+
+            if (NomeDaPropriedadeQuandoNomeCampoVazio)
+                comportamentoAtual = comportamentoAtual == 0
+                    ? ComportamentoFlags.NomeDaPropriedadeQuandoNomeCampoVazio
+                    : comportamentoAtual | ComportamentoFlags.NomeDaPropriedadeQuandoNomeCampoVazio;
+
+            if (NaoDispararExceptionPropriedadesObrigatoriasVazias)
+                comportamentoAtual = comportamentoAtual == 0
+                    ? ComportamentoFlags.NaoDispararExceptionPropriedadesObrigatoriasVazias
+                    : comportamentoAtual | ComportamentoFlags.NaoDispararExceptionPropriedadesObrigatoriasVazias;
+
+            if (NaoDispararExceptionPropriedadesMaioresPermitido)
+                comportamentoAtual = comportamentoAtual == 0
+                    ? ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido
+                    : comportamentoAtual | ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido;
+
+            return comportamentoAtual;
+        }
     }
 }
