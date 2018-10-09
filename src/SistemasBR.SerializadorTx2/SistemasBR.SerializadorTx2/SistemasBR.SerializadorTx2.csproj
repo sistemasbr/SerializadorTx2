@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>João Lucas Farias</Authors>
+    <Company>SistemasBR</Company>
+    <Product>SerializadorTx2</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/sistemasbr/SerializadorTx2</RepositoryUrl>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="$(TargetDir)signtool.exe sign /f &quot;$(ProjectDir)sistemasbr-code-sign-exp-07-2019.pfx&quot; /p &quot;Sbr4540@_&quot; /t &quot;http://timestamp.comodoca.com/?td=sha256&quot; /a $(TargetPath)" />
+  </Target>
 
 </Project>
