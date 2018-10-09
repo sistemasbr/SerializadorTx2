@@ -1,15 +1,15 @@
-﻿using System;
+﻿using SistemasBR.SerializadorTx2.Atributos;
+using SistemasBR.SerializadorTx2.Configuracao;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using SistemasBR.SerializadorTx2.Atributos;
-using SistemasBR.SerializadorTx2.Configuracao;
 
 namespace SistemasBR.SerializadorTx2.Resolvedores
 {
     internal partial class Resolvedor
     {
-        internal class Cabecalho
+        internal static class Cabecalho
         {
             internal static string RetornaValorCabecalho(MemberInfo tipo)
             {
@@ -32,7 +32,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
 
                 if (!string.IsNullOrWhiteSpace(cabecalho)) return cabecalho;
 
-                if (!ConfiguracoesAtuais.NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio)
+                if (!ComportamentoAtual.NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio)
                     throw new ArgumentNullException(nameof(cabecalho), "O valor do cebeçalho não pode ser vazio.");
 
                 cabecalho = tipo.Name;
@@ -42,7 +42,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
 
             private static bool DeveDispararExceptionPorNaoConterAtributo(
                 IEnumerable<CustomAttributeData> atributosClasse) =>
-                !ConfiguracoesAtuais.NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio
+                !ComportamentoAtual.NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio
                 && atributosClasse.All(a => a.AttributeType != typeof(Tx2CabecalhoAttribute));
         }
     }

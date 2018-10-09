@@ -4,16 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace SistemasBR.SerializadorTx2.Resolvedores
 {
     internal partial class Resolvedor
     {
-        internal class Propriedades
+        internal static class Propriedades
         {
             internal static string RetornaValorPropriedades(object objeto, Type tipo)
             {
-                var corpoTx2 = "";
+                var corpoTx2 = new StringBuilder();
                 var propriedades = tipo.GetProperties();
 
                 foreach (var propriedade in propriedades)
@@ -22,17 +23,17 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
                                                   as IList<CustomAttributeData> ??
                                               propriedade.CustomAttributes.ToList();
 
-                    if (!ConfiguracoesAtuais.SerializarPropriedadesSemAtributo
+                    if (!ComportamentoAtual.SerializarPropriedadesSemAtributo
                         && atributosProriedade.All(a => a.AttributeType != typeof(Tx2CampoAttribute)))
                         continue;
 
                     var atributoTx2Propriedade = atributosProriedade
                         .FirstOrDefault(a => a.AttributeType == typeof(Tx2CampoAttribute));
 
-                    corpoTx2 += CriaLinhaTx2(atributoTx2Propriedade,
-                        new ResolvedorPropriedadesParametros(objeto, propriedade));
+                    corpoTx2.Append(CriaLinhaTx2(atributoTx2Propriedade,
+                        new ResolvedorPropriedadesParametros(objeto, propriedade)));
                 }
-                return corpoTx2;
+                return corpoTx2.ToString();
             }
 
             private static string CriaLinhaTx2(
@@ -68,7 +69,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
 
                 if (!string.IsNullOrWhiteSpace(nomeTx2)) return nomeTx2;
 
-                if (!ConfiguracoesAtuais.NomeDaPropriedadeQuandoNomeCampoVazio)
+                if (!ComportamentoAtual.NomeDaPropriedadeQuandoNomeCampoVazio)
                     throw new ArgumentNullException(nameof(nomeTx2),
                         $"O nome correspondente da propriedade \"{parametrosResolvedorPropriedades.Propriedade.Name}\" não foi preenchido.");
 
@@ -92,7 +93,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
 
                 if (!preenchimentoObrigatorio || !string.IsNullOrWhiteSpace(valorPropriedade)) return valorPropriedade;
 
-                if (!ConfiguracoesAtuais.NaoDispararExceptionPropriedadesObrigatoriasVazias)
+                if (!ComportamentoAtual.NaoDispararExceptionPropriedadesObrigatoriasVazias)
                     throw new ArgumentNullException(nameof(parametrosResolvedorPropriedades.Propriedade),
                         $"A propriedade \"{parametrosResolvedorPropriedades.Propriedade.Name}\" tem preenchimento obrigatório.");
 
@@ -116,7 +117,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
 
             private static bool ExceptionLimiteExcedido(string valorPropriedade, int quantidadeLimite) =>
                 valorPropriedade.Length > quantidadeLimite &&
-                !ConfiguracoesAtuais.NaoDispararExceptionPropriedadesMaioresPermitido;
+                !ComportamentoAtual.NaoDispararExceptionPropriedadesMaioresPermitido;
         }
     }
 }

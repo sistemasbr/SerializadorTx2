@@ -7,13 +7,13 @@ namespace SistemasBR.SerializadorTx2
     public class SerializadorTx2
     {
         public static string Serializar(object objeto) =>
-            Serializar(objeto, ConfiguracoesAtuais.DevolverConfiguracoesAtuais());
+            Serializar(objeto, ComportamentoAtual.DevolverComportamentoAtual());
 
         public static string Serializar(object objeto, ComportamentoFlags comportamentoExpecifico)
         {
-            var comportamentoAtual = ConfiguracoesAtuais.DevolverConfiguracoesAtuais();
+            var comportamentoAtual = ComportamentoAtual.DevolverComportamentoAtual();
 
-            ConfiguracoesAtuais.AtualizarConfiguracoesGerais(comportamentoExpecifico);
+            ComportamentoAtual.AtualizarComportamentoGeral(comportamentoExpecifico);
 
             try
             {
@@ -29,7 +29,7 @@ namespace SistemasBR.SerializadorTx2
             }
             finally
             {
-                ConfiguracoesAtuais.AtualizarConfiguracoesGerais(comportamentoAtual);
+                ComportamentoAtual.AtualizarComportamentoGeral(comportamentoAtual);
             }
         }
     }
