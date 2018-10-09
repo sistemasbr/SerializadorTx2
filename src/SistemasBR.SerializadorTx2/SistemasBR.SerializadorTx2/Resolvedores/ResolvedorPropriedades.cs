@@ -8,7 +8,7 @@ using System.Text;
 
 namespace SistemasBR.SerializadorTx2.Resolvedores
 {
-    internal partial class Resolvedor
+    internal static partial class Resolvedor
     {
         internal static class Propriedades
         {

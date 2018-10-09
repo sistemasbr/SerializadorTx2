@@ -4,7 +4,7 @@ using System;
 
 namespace SistemasBR.SerializadorTx2
 {
-    public class SerializadorTx2
+    public static class SerializadorTx2
     {
         public static string Serializar(object objeto) =>
             Serializar(objeto, ComportamentoAtual.DevolverComportamentoAtual());
