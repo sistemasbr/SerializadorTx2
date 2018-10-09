@@ -1,6 +1,6 @@
 ﻿namespace SistemasBR.SerializadorTx2.Configuracao
 {
-    internal static class ConfiguracoesAtuais
+    internal static class ComportamentoAtual
     {
         internal static bool NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio { get; private set; }
         internal static bool SerializarPropriedadesSemAtributo { get; private set; }
@@ -8,7 +8,7 @@
         internal static bool NaoDispararExceptionPropriedadesObrigatoriasVazias { get; private set; }
         internal static bool NaoDispararExceptionPropriedadesMaioresPermitido { get; private set; }
 
-        internal static void AtualizarConfiguracoesGerais(ComportamentoFlags configuracoes)
+        internal static void AtualizarComportamentoGeral(ComportamentoFlags configuracoes)
         {
             NomeDaClasseNoCabecalhoQuandoNaoInformadoOuVazio =
                 configuracoes.HasFlag(ComportamentoFlags.NomeDaClasseNoCabecalhoNaoInformadoOuVazio);
@@ -26,7 +26,7 @@
                 configuracoes.HasFlag(ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido);
         }
 
-        internal static ComportamentoFlags DevolverConfiguracoesAtuais()
+        internal static ComportamentoFlags DevolverComportamentoAtual()
         {
             ComportamentoFlags comportamentoAtual = 0;
 
