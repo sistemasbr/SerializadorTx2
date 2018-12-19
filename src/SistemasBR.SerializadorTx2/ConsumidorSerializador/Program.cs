@@ -1,13 +1,12 @@
-﻿using System;
-using System.Runtime;
-using SistemasBR.SerializadorTx2;
+﻿using SistemasBR.SerializadorTx2;
 using SistemasBR.SerializadorTx2.Configuracao;
+using System;
 
 namespace ConsumidorSerializador
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             var obj = new Mock
             {
@@ -20,6 +19,7 @@ namespace ConsumidorSerializador
             SerializadorTx2Configuracao.ConfigurarComportamento(
                 ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido |
                 ComportamentoFlags.NaoDispararExceptionPropriedadesObrigatoriasVazias |
+                ComportamentoFlags.NaoSerializarCamposNulosNaoObrigatorios |
                 ComportamentoFlags.NomeDaClasseNoCabecalhoNaoInformadoOuVazio |
                 ComportamentoFlags.NomeDaPropriedadeQuandoNomeCampoVazio |
                 ComportamentoFlags.SerializarPropriedadesSemAtributo);

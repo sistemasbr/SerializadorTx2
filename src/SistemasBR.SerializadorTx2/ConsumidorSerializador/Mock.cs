@@ -14,5 +14,8 @@ namespace ConsumidorSerializador
 
         [Tx2Campo("Outro_campo", false, 2)]
         public string Essevai { get; set; }
+
+        [Tx2Campo("Problema_teste", false)]
+        public string Problema { get; set; }
     }
 }

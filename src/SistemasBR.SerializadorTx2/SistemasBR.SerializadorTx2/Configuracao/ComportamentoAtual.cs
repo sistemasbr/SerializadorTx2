@@ -7,6 +7,7 @@
         internal static bool NomeDaPropriedadeQuandoNomeCampoVazio { get; private set; }
         internal static bool NaoDispararExceptionPropriedadesObrigatoriasVazias { get; private set; }
         internal static bool NaoDispararExceptionPropriedadesMaioresPermitido { get; private set; }
+        internal static bool NaoSerializarCamposNulosNaoObrigatorios { get; private set; }
 
         internal static void AtualizarComportamentoGeral(ComportamentoFlags configuracoes)
         {
@@ -24,6 +25,9 @@
 
             NaoDispararExceptionPropriedadesMaioresPermitido =
                 configuracoes.HasFlag(ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido);
+
+            NaoSerializarCamposNulosNaoObrigatorios =
+                configuracoes.HasFlag(ComportamentoFlags.NaoSerializarCamposNulosNaoObrigatorios);
         }
 
         internal static ComportamentoFlags DevolverComportamentoAtual()
@@ -52,6 +56,11 @@
                 comportamentoAtual = comportamentoAtual == 0
                     ? ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido
                     : comportamentoAtual | ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido;
+
+            if (NaoSerializarCamposNulosNaoObrigatorios)
+                comportamentoAtual = comportamentoAtual == 0
+                    ? ComportamentoFlags.NaoSerializarCamposNulosNaoObrigatorios
+                    : comportamentoAtual | ComportamentoFlags.NaoSerializarCamposNulosNaoObrigatorios;
 
             return comportamentoAtual;
         }
