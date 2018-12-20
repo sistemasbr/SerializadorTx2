@@ -2,6 +2,7 @@
 
 namespace ConsumidorSerializador
 {
+    [Tx2Cabecalho("MockCabecalho")]
     public class Mock
     {
         [Tx2Campo("", true)]

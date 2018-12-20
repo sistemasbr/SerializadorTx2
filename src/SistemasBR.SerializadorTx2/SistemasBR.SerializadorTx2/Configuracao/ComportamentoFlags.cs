@@ -10,6 +10,7 @@ namespace SistemasBR.SerializadorTx2.Configuracao
         NomeDaPropriedadeQuandoNomeCampoVazio = 4,
         NaoDispararExceptionPropriedadesObrigatoriasVazias = 8,
         NaoDispararExceptionPropriedadesMaioresPermitido = 16,
-        NaoSerializarCamposNulosNaoObrigatorios = 32
+        NaoSerializarCamposNulosNaoObrigatorios = 32,
+        NaoAdicionarCabecalhoRodapeQuandoVazio = 64
     }
 }

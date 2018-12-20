@@ -16,15 +16,25 @@ namespace ConsumidorSerializador
                 Essevai = "123"
             };
 
+            var objSemCabecalho = new MockSemCabecalho
+            {
+                Teste = "",
+                Teste2 = 2,
+                Nao = "Não é pra ir",
+                Essevai = "123"
+            };
+
             SerializadorTx2Configuracao.ConfigurarComportamento(
                 ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido |
                 ComportamentoFlags.NaoDispararExceptionPropriedadesObrigatoriasVazias |
                 ComportamentoFlags.NaoSerializarCamposNulosNaoObrigatorios |
                 ComportamentoFlags.NomeDaClasseNoCabecalhoNaoInformadoOuVazio |
                 ComportamentoFlags.NomeDaPropriedadeQuandoNomeCampoVazio |
-                ComportamentoFlags.SerializarPropriedadesSemAtributo);
+                ComportamentoFlags.SerializarPropriedadesSemAtributo |
+                ComportamentoFlags.NaoAdicionarCabecalhoRodapeQuandoVazio);
 
             Console.WriteLine(SerializadorTx2.Serializar(obj));
+            Console.WriteLine(SerializadorTx2.Serializar(objSemCabecalho));
             Console.ReadLine();
         }
     }
