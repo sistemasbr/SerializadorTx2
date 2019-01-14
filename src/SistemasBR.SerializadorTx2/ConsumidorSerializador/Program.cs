@@ -4,7 +4,7 @@ using System;
 
 namespace ConsumidorSerializador
 {
-    internal class Program
+    public class Program
     {
         private static void Main()
         {
