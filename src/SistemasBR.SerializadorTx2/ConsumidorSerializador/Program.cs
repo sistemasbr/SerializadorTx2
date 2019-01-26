@@ -4,13 +4,13 @@ using System;
 
 namespace ConsumidorSerializador
 {
-    public class Program
+    public static class Program
     {
         private static void Main()
         {
             var obj = new Mock
             {
-                Teste = "",
+                Teste = string.Empty,
                 Teste2 = 2,
                 Nao = "Não é pra ir",
                 Essevai = "123"
@@ -18,7 +18,7 @@ namespace ConsumidorSerializador
 
             var objSemCabecalho = new MockSemCabecalho
             {
-                Teste = "",
+                Teste = string.Empty,
                 Teste2 = 2,
                 Nao = "Não é pra ir",
                 Essevai = "123"
