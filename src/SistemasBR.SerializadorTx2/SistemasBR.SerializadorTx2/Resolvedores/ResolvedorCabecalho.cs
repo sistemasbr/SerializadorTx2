@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using ComportamentoAtual = SistemasBR.SerializadorTx2.Configuracao.ComportamentoAtual;
 
 namespace SistemasBR.SerializadorTx2.Resolvedores
 {
@@ -24,7 +25,7 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
                     atributosClasse.FirstOrDefault(a => a.AttributeType == typeof(Tx2CabecalhoAttribute));
 
                 if (atributoTx2CabecalhoClasse == null)
-                    return tipo.Name;
+                    return ComportamentoAtual.NaoAdicionarCabecalhoRodapeQuandoVazio ? string.Empty : tipo.Name;
 
                 var argumentosConstrutorCabecalho = atributoTx2CabecalhoClasse.ConstructorArguments;
 

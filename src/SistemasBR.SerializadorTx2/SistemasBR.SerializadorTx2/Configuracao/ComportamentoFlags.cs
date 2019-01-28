@@ -9,6 +9,8 @@ namespace SistemasBR.SerializadorTx2.Configuracao
         SerializarPropriedadesSemAtributo = 2,
         NomeDaPropriedadeQuandoNomeCampoVazio = 4,
         NaoDispararExceptionPropriedadesObrigatoriasVazias = 8,
-        NaoDispararExceptionPropriedadesMaioresPermitido = 16
+        NaoDispararExceptionPropriedadesMaioresPermitido = 16,
+        NaoSerializarCamposNulosNaoObrigatorios = 32,
+        NaoAdicionarCabecalhoRodapeQuandoVazio = 64
     }
 }

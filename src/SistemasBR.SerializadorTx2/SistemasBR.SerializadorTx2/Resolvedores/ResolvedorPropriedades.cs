@@ -50,11 +50,16 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
                     new ResolvedorPropriedadesParametros(
                         parametrosResolvedorPropriedades.Objeto,
                         argumentosConstrutorPropriedade,
-                        parametrosResolvedorPropriedades.Propriedade));
+                        parametrosResolvedorPropriedades.Propriedade), out var preenchimentoObrigatorio);
 
                 VerificaQuantidadeLimite(valorPropriedade,
                     new ResolvedorPropriedadesParametros(argumentosConstrutorPropriedade,
                         parametrosResolvedorPropriedades.Propriedade));
+
+                if (ComportamentoAtual.NaoSerializarCamposNulosNaoObrigatorios && !preenchimentoObrigatorio && string.IsNullOrWhiteSpace(valorPropriedade))
+                {
+                    return string.Empty;
+                }
 
                 return $"{nomeTx2}={valorPropriedade}\n";
             }
@@ -77,13 +82,15 @@ namespace SistemasBR.SerializadorTx2.Resolvedores
             }
 
             private static string PreencheValorPropriedade(
-                ResolvedorPropriedadesParametros parametrosResolvedorPropriedades)
+                ResolvedorPropriedadesParametros parametrosResolvedorPropriedades, out bool preenchimentoObrigatorio)
             {
-                var valorPropriedade = parametrosResolvedorPropriedades
-                    .Propriedade
-                    .GetValue(parametrosResolvedorPropriedades.Objeto).ToString();
+                var valorPropriedadeQuePodeSerNulo =
+                    parametrosResolvedorPropriedades.Propriedade.GetValue(parametrosResolvedorPropriedades.Objeto);
+                var valorPropriedade = valorPropriedadeQuePodeSerNulo == null
+                    ? string.Empty
+                    : valorPropriedadeQuePodeSerNulo.ToString();
 
-                var preenchimentoObrigatorio = false;
+                preenchimentoObrigatorio = false;
                 if (parametrosResolvedorPropriedades.ArgumentosConstrutorPropriedade.Count > 0)
                     preenchimentoObrigatorio = Convert
                         .ToBoolean(parametrosResolvedorPropriedades

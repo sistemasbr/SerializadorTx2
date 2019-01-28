@@ -7,6 +7,8 @@
         internal static bool NomeDaPropriedadeQuandoNomeCampoVazio { get; private set; }
         internal static bool NaoDispararExceptionPropriedadesObrigatoriasVazias { get; private set; }
         internal static bool NaoDispararExceptionPropriedadesMaioresPermitido { get; private set; }
+        internal static bool NaoSerializarCamposNulosNaoObrigatorios { get; private set; }
+        internal static bool NaoAdicionarCabecalhoRodapeQuandoVazio { get; private set; }
 
         internal static void AtualizarComportamentoGeral(ComportamentoFlags configuracoes)
         {
@@ -24,6 +26,12 @@
 
             NaoDispararExceptionPropriedadesMaioresPermitido =
                 configuracoes.HasFlag(ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido);
+
+            NaoSerializarCamposNulosNaoObrigatorios =
+                configuracoes.HasFlag(ComportamentoFlags.NaoSerializarCamposNulosNaoObrigatorios);
+
+            NaoAdicionarCabecalhoRodapeQuandoVazio =
+                configuracoes.HasFlag(ComportamentoFlags.NaoAdicionarCabecalhoRodapeQuandoVazio);
         }
 
         internal static ComportamentoFlags DevolverComportamentoAtual()
@@ -52,6 +60,16 @@
                 comportamentoAtual = comportamentoAtual == 0
                     ? ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido
                     : comportamentoAtual | ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido;
+
+            if (NaoSerializarCamposNulosNaoObrigatorios)
+                comportamentoAtual = comportamentoAtual == 0
+                    ? ComportamentoFlags.NaoSerializarCamposNulosNaoObrigatorios
+                    : comportamentoAtual | ComportamentoFlags.NaoSerializarCamposNulosNaoObrigatorios;
+
+            if (NaoAdicionarCabecalhoRodapeQuandoVazio)
+                comportamentoAtual = comportamentoAtual == 0
+                    ? ComportamentoFlags.NaoAdicionarCabecalhoRodapeQuandoVazio
+                    : comportamentoAtual | ComportamentoFlags.NaoAdicionarCabecalhoRodapeQuandoVazio;
 
             return comportamentoAtual;
         }
