@@ -2,17 +2,18 @@
 
 namespace ConsumidorSerializador
 {
+    [Tx2Cabecalho("")]
     public class Mock
     {
-        [Tx2Campo("", true)]
+        [Tx2Campo("Arroz_Integral", true)]
         public string Teste { get; set; }
 
-        [Tx2Campo("nome", false, 5)]
+        [Tx2Campo("Epa", false, 5)]
         public int Teste2 { get; set; }
 
         public string Nao { get; set; }
 
-        [Tx2Campo("Outro_campo", false, 2)]
+        [Tx2Campo("", false, 2)]
         public string Essevai { get; set; }
     }
 }

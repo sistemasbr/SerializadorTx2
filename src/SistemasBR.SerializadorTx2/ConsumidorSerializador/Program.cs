@@ -17,13 +17,13 @@ namespace ConsumidorSerializador
                 Essevai = "123"
             };
 
-            SerializadorTx2Configuracao.ConfigurarComportamento(
-                ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido |
+            Console.WriteLine(SerializadorTx2.Serializar(obj,
                 ComportamentoFlags.NaoDispararExceptionPropriedadesObrigatoriasVazias |
+                ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido |
                 ComportamentoFlags.NomeDaClasseNoCabecalhoNaoInformadoOuVazio |
                 ComportamentoFlags.NomeDaPropriedadeQuandoNomeCampoVazio |
-                ComportamentoFlags.SerializarPropriedadesSemAtributo);
-
+                ComportamentoFlags.SerializarPropriedadesSemAtributo));
+            Console.ReadKey();
             Console.WriteLine(SerializadorTx2.Serializar(obj));
             Console.ReadLine();
         }
