@@ -25,6 +25,10 @@ namespace SistemasBR.SerializadorTx2
 
                 var corpoTx2 = Resolvedor.Propriedades.RetornaValorPropriedades(objeto, tipo);
 
+                if (string.IsNullOrWhiteSpace(cabecalhoTx2) &&
+                    ComportamentoAtual.NaoAdicionarCabecalhoRodapeQuandoVazio)
+                    return $"{corpoTx2}";
+
                 return $"INCLUIR{cabecalhoTx2}\n{corpoTx2}SALVAR{cabecalhoTx2}";
             }
             finally

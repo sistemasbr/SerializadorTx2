@@ -1,30 +1,40 @@
-﻿using System;
-using System.Runtime;
-using SistemasBR.SerializadorTx2;
+﻿using SistemasBR.SerializadorTx2;
 using SistemasBR.SerializadorTx2.Configuracao;
+using System;
 
 namespace ConsumidorSerializador
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
             var obj = new Mock
             {
-                Teste = "",
+                Teste = string.Empty,
                 Teste2 = 2,
                 Nao = "Não é pra ir",
                 Essevai = "123"
             };
 
-            Console.WriteLine(SerializadorTx2.Serializar(obj,
-                ComportamentoFlags.NaoDispararExceptionPropriedadesObrigatoriasVazias |
+            var objSemCabecalho = new MockSemCabecalho
+            {
+                Teste = string.Empty,
+                Teste2 = 2,
+                Nao = "Não é pra ir",
+                Essevai = "123"
+            };
+
+            SerializadorTx2Configuracao.ConfigurarComportamento(
                 ComportamentoFlags.NaoDispararExceptionPropriedadesMaioresPermitido |
+                ComportamentoFlags.NaoDispararExceptionPropriedadesObrigatoriasVazias |
+                ComportamentoFlags.NaoSerializarCamposNulosNaoObrigatorios |
                 ComportamentoFlags.NomeDaClasseNoCabecalhoNaoInformadoOuVazio |
                 ComportamentoFlags.NomeDaPropriedadeQuandoNomeCampoVazio |
-                ComportamentoFlags.SerializarPropriedadesSemAtributo));
-            Console.ReadKey();
+                ComportamentoFlags.SerializarPropriedadesSemAtributo |
+                ComportamentoFlags.NaoAdicionarCabecalhoRodapeQuandoVazio);
+
             Console.WriteLine(SerializadorTx2.Serializar(obj));
+            Console.WriteLine(SerializadorTx2.Serializar(objSemCabecalho));
             Console.ReadLine();
         }
     }
