@@ -11,3 +11,5 @@ FimComando
 [SistemasBR](http://www.sistemasbr.net)  
   
 ![SistemasBR Logo](https://s3-sa-east-1.amazonaws.com/sigecom/Estrutura/logo.png)
+
+Testando o PR no codacy
